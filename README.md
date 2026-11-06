@@ -1,4 +1,3 @@
-Dependencies: PyTorch, NumPy, pandas, Matplotlib, tqdm.
 
 
 ## Seq2Seq Machine Translation
