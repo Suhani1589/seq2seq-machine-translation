@@ -1,95 +1,26 @@
-# English to French Machine Translation using Seq2Seq LSTM
+Dependencies: PyTorch, NumPy, pandas, Matplotlib, tqdm.
 
-## Overview
 
-This project implements a traditional Sequence-to-Sequence (Seq2Seq) neural machine translation model using LSTM networks.
-
-The goal is to translate English sentences into French sentences by learning patterns from parallel sentence pairs.
-
-## Project Features
-
-- Encoder-Decoder architecture using LSTM
-- Word-level tokenization
-- Custom vocabulary building
-- Padding and special tokens handling
-- Teacher forcing during training
-- Training and evaluation pipeline
-- Sample translation predictions
-
-## Dataset
-
-Dataset used:
-- English-French parallel sentence pairs
-
-Training data:
-- 60,000 English-French sentence pairs
-
-Example:
-
-English:
-I love you
-
-French:
-Je t'aime
-
-## Model Architecture
-
-### Encoder
-
-The encoder reads the input English sentence and converts it into hidden representations using an LSTM.
-
-Architecture:
-Input Sentence
-|
-Embedding Layer
-|
-LSTM Encoder
-|
-Hidden State + Cell State
-
-### Decoder
-
-The decoder generates the translated French sentence using the encoder's hidden states.
-
-Architecture:
-Hidden State
-|
-LSTM Decoder
-|
-Linear Layer
-|
-French Output Tokens
-
-## Training Details
-
-- Framework: PyTorch
-- Model: Seq2Seq LSTM
-- Hidden Size: 512
-- Training Epochs: 50
-- Dataset Size: 60,000 sentence pairs
-
-## Sample Output
-
-Example predictions:
-English: how are you
-Predicted French:
-comment allez vous
-
-(Add sample_output.png here)
-
-## Future Improvements
-
-- Add Attention mechanism
-- Implement Scaled Dot Product Attention
-- Train on larger datasets
-- Improve BLEU score evaluation
-- Deploy using FastAPI
-
-## Requirements
-
-Install dependencies:
-
+## Seq2Seq Machine Translation
+```markdown
+# Seq2Seq Machine Translation
+English-to-French translation with an LSTM encoder-decoder in PyTorch. The implementation is `seq2seq_translation.ipynb`.
+## Data
+The notebook reads `fra.txt` (tab-separated English, French, and a license column) and keeps the first **60,000** pairs. Text is lowercased and split on whitespace. Sequences use `<PAD>`, `<SOS>`, `<EOS>`, and `<UNK>`, then pad or truncate to length **20**.
+## Encoder
+The encoder is a 2-layer LSTM.
+| Setting | Value |
+| --- | --- |
+| Embedding size | 256 |
+| Hidden size | 512 |
+| Layers | 2 |
+| Dropout | 0.3 |
+| Batch size | 32 |
+It returns the final hidden state and cell state. The decoder is the same size, with a linear layer over the French vocabulary. Training uses teacher forcing **0.5**, Adam at `1e-3`, pad-masked cross-entropy, and gradient clipping at 1.0. Decoding is greedy argmax.
+The notebook sets **10** epochs. The saved log shows epoch 10 training loss **1.2721**. Example prompts in the notebook are "how are you", "good morning", "thank you", and "where are you".
+## Run
 ```bash
 pip install -r requirements.txt
-Author
-Suhani Bhardwaj
+Open seq2seq_translation.ipynb and point the CSV load at a local fra.txt (the notebook path is /content/fra.txt). sample_output.png is included in the repository.
+
+
